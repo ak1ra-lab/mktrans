@@ -47,18 +47,18 @@ Note: You will need to have [**imagemagick**](https://imagemagick.org/index.php)
     Usage: mktrans [-f <fuzz>] [-s|-S] [-v] <files ... >
 
         -f <fuzz>: How loosely to match the background color (default 20%)
-               -s: Use speedy antialiasing (much faster, slightly less acurate) 
-               -S: Do not antialias transparency (useful for repeated runs)
-       -p <x>,<y>: Floodfills from pixel at x,y instead of 0,0
-               -v: Verbose
+        -s: Use speedy antialiasing (much faster, slightly less acurate)
+        -S: Do not antialias transparency (useful for repeated runs)
+        -p <x>,<y>: Floodfills from pixel at x,y instead of 0,0
+        -v: Verbose
 
 Output filenames will be the same as input, except suffixed with
 `-transparent.png`. E.g., `mktrans foo.gif bar.jpg` creates
 `foo-transparent.png` and `bar-transparent.png`.
 
-### About -f *fuzz*
+### About -f _fuzz_
 
-*Fuzz* is how far off the background color can be (in percent). You
+_Fuzz_ is how far off the background color can be (in percent). You
 usually won't have to change this. If fuzz is too high, parts of the
 foreground image will be missing. If fuzz is too low, parts of the
 background will not be removed. On certain images it may help to tweak
@@ -79,9 +79,9 @@ eroding. Since this can be slow on large images, consider using the
 Similar to -s, but does not antialias at all. Useful with with -p, below.
 See an example of why you'd use -S in [astrolabe.md](astrolabe.md).
 
-### About -p *x*,*y*
+### About -p _x_,_y_
 
-*X*,*y* specifies which pixel to start floodfilling from, instead of 0,0.
+_X_,_y_ specifies which pixel to start floodfilling from, instead of 0,0.
 You probably should just _ignore_ this option and use The GIMP for
 more fiddly, complex images.
 
@@ -101,7 +101,7 @@ a first floodfill. Note the letters 'a' and 'g' in the example below.
     mv foo-transparent.png foo.png
     mktrans foo.png
     mv foo-transparent.png logo-transparent.png
-    
+
 [![Using -p to fill lagoons](https://i.imgur.com/Hxl1a1A.png)](https://i.imgur.com/CmbUnHk.png)
 
 You can find the correct coordinates for a pixel by using
@@ -112,18 +112,18 @@ the start points of the image.
 
 ## Bugs
 
-* The -p option is ugly and probably nobody wants to use it. Maybe I
+- The -p option is ugly and probably nobody wants to use it. Maybe I
   should remove it just to make the documentation shorter and clearer.
   Also, nearly every single bug listed here is due to -p existing.
 
-* Running this script on an image that already has transparency will
+- Running this script on an image that already has transparency will
   erode the image due to the antialiasing. Using -S is a workaround,
   but is not very satisfactory. Perhaps this script should remove any
   existing transparency before manipulating the image and then add it
   back in at the end. But then again, how often are people going to
   want to do that? The only use I can think of is when using -p.
 
-* Because of the previous bug, if you do use -p to fill lots of
+- Because of the previous bug, if you do use -p to fill lots of
   lagoons, you'll probably want to use -S at the same time.
   (Should this be done automatically if the image already has
   transparency? Yuck, more complexity.)
@@ -131,26 +131,24 @@ the start points of the image.
   See the [astrolabe](astrolabe.md) example where running mktrans a
   second time on a specific pixel requires the use of -S so as to
   not cause the image to be eroded.
-    
-            mktrans a.png
-            mktrans -p 258,54 a-transparent.png
-            mv a-transparent-transparent.png a-transparent-transparent' without -S).png
-            mktrans -S -p 258,54 a-transparent.png
-            mv a-transparent-transparent.png a-transparent-transparent' with -S).png
 
-* Finding the coordinates for -p is a pain. (Tip: middle click on
+    mktrans a.png
+    mktrans -p 258,54 a-transparent.png
+    mv a-transparent-transparent.png a-transparent-transparent' without -S).png
+    mktrans -S -p 258,54 a-transparent.png
+    mv a-transparent-transparent.png a-transparent-transparent' with -S).png
+
+- Finding the coordinates for -p is a pain. (Tip: middle click on
   image when viewing with `display`). It'd be nice if there was a -P
   option which let the user click on a point (or multiple points) in
   the image to start the floodfill.
 
-* Instead of choosing coordinates, we could use ImageMagick's
+- Instead of choosing coordinates, we could use ImageMagick's
   connected components labeling (blob extraction) to give people a
-  choice of which lagoons to fill. 
-
+  choice of which lagoons to fill.
 
 ## See Also
 
 This is similar to ImageMagick's
 ["bg_removal"](https://www.imagemagick.org/Usage/scripts/bg_removal)
-script, but much higher quality. (It's also faster and simpler to use.) 
-
+script, but much higher quality. (It's also faster and simpler to use.)
